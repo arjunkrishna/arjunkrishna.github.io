@@ -3,14 +3,30 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2016 | Hexo</title>
+  <title>Installing Stand-alone Spark on fresh ubuntu linux install | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2016/index.html">
+  <meta name="description" content="I looked at the following links : install spark, install spark with hadoop &amp;amp; install jdk
+&amp;nbsp;
+mkdir appschmod 777 –R ./apps
+#installing jdk
+wget –no-cookies –no-check-certificate –header “Cookie">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Installing Stand-alone Spark on fresh ubuntu linux install">
+<meta property="og:url" content="http://yoursite.com/2016/04/21/installing-stand-alone-spark-on-fresh-ubuntu-linux-install/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="I looked at the following links : install spark, install spark with hadoop &amp;amp; install jdk
+&amp;nbsp;
+mkdir appschmod 777 –R ./apps
+#installing jdk
+wget –no-cookies –no-check-certificate –header “Cookie">
+<meta property="og:updated_time" content="2016-12-15T03:02:55.401Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="Installing Stand-alone Spark on fresh ubuntu linux install">
+<meta name="twitter:description" content="I looked at the following links : install spark, install spark with hadoop &amp;amp; install jdk
+&amp;nbsp;
+mkdir appschmod 777 –R ./apps
+#installing jdk
+wget –no-cookies –no-check-certificate –header “Cookie">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -49,7 +65,7 @@
           <li><a class=""
                  href="/index.html">Home</a></li>
         
-          <li><a class="active"
+          <li><a class=""
                  href="/archives/">Archives</a></li>
         
       </ul>
@@ -73,180 +89,90 @@
 
     <div class="row">
         <div class="col-sm-8 blog-main">
-          
-  
-  
+          <article id="post-installing-stand-alone-spark-on-fresh-ubuntu-linux-install" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
     
+  
+    <h1 class="article-title" itemprop="name">
+      Installing Stand-alone Spark on fresh ubuntu linux install
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2016/04/21/installing-stand-alone-spark-on-fresh-ubuntu-linux-install/" class="article-date"><time datetime="2016-04-22T03:02:50.000Z" itemprop="datePublished">2016-04-21</time></a>
+</div>
+
+    
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/how-to/">how-to</a> / <a class="article-category-link" href="/categories/how-to/ubuntu/">ubuntu</a>
+  </div>
+
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I looked at the following links : <a href="https://www.dezyre.com/apache-spark-tutorial/apache-spark-installation-tutorial" target="_blank" rel="external">install spark</a>, <a href="http://dmitrypukhov.pro/install-apache-spark-on-ubuntu/" target="_blank" rel="external">install spark with hadoop</a> &amp; <a href="http://www.liberiangeek.net/2014/03/daily-ubuntu-tips-manually-install-oracle-java-jdk-8-in-ubuntu/" target="_blank" rel="external">install jdk</a></p>
+<p>&nbsp;</p>
+<p><pre class="lang:sh decode:true ">mkdir apps<br>chmod 777 –R ./apps</pre></p>
+<p>#installing jdk</p>
+<p>wget –no-cookies –no-check-certificate –header “Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie” “<a href="http://download.oracle.com/otn-pub/java/jdk/8u51-b16/jdk-8u51-linux-x64.tar.gz" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/8u51-b16/jdk-8u51-linux-x64.tar.gz</a>“</p>
+<p>tar xzf jdk-8u51-linux-x64.tar.gz</p>
+<p>#create folder for jdk under /usr/lib<br>sudo mkdir -p /usr/lib/jvm/jdk1.8.0/<br>sudo mv jdk1.8.0_51/* /usr/lib/jvm/jdk1.8.0/</p>
+<p>#begin configuring Java, enable javac, javaws<br>sudo update-alternatives –install “/usr/bin/java” “java” “/usr/lib/jvm/jdk1.8.0/bin/java” 1<br>sudo update-alternatives –install “/usr/bin/javac” “javac” “/usr/lib/jvm/jdk1.8.0/bin/javac” 1<br>sudo update-alternatives –install “/usr/bin/javaws” “javaws” “/usr/lib/jvm/jdk1.8.0/bin/javaws” 1</p>
+<p>#check java installation<br>java –version</p>
+<p>#download spark<br>wget <a href="http://shinyfeather.com/spark/spark-1.6.1/spark-1.6.1-bin-hadoop2.6.tgz" target="_blank" rel="external">http://shinyfeather.com/spark/spark-1.6.1/spark-1.6.1-bin-hadoop2.6.tgz</a><br>mkdir /opt/spark<br>tar -xvf spark-1.6.1-bin-hadoop2.6.tgz -C /opt/spark<br>ln -s /opt/spark/spark-1.6.1-bin-hadoop2.6 spark<br>cd ~<br>nano .bashrc<br>SPARK_HOME=/root/apps/spark<br>export PATH=$SPARK_HOME/bin:$PATH</p>
+<p>#after saving, then source the updated file.<br>source  ~/.bashrc</p>
+<p>spark-shell<br>sc.version<br>&nbsp;</p>
+
+      
+    </div>
+
     
       
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/04/21/installing-stand-alone-spark-on-fresh-ubuntu-linux-install/" data-id="ciwps9cxe0005vcv0tbrem3cb" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
+      
+
+    </footer>
+  </div>
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/10/hello-world/">Hello World</a>
-    </h1>
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
   
+  <li role="presentation">
+    <a href="/2016/04/19/useful-powershell-scripts/" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">Useful Powershell scripts</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/2016/05/20/remove-skypehost-exe-that-bombards-your-hard-disk/" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">remove skypehost.exe that bombards your hard disk</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
 
 
-    <div class="article-datetime">
-  <a href="/2016/12/10/hello-world/" class="archive-article-date"><time datetime="2016-12-11T04:30:24.180Z" itemprop="datePublished">December 10th</time></a>
-</div>
-
-  </header>
+  
 </article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/10/18/sql-server-dependency-traversal-from-child-to-parents/">SQL Server: Dependency Traversal from Child to Parents</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/10/18/sql-server-dependency-traversal-from-child-to-parents/" class="archive-article-date"><time datetime="2016-10-19T02:56:06.000Z" itemprop="datePublished">October 18th</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/24/unable-to-remove-node-modules-folder-from-windows-machine/">Unable to remove node-modules folder from Windows machine.</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/09/24/unable-to-remove-node-modules-folder-from-windows-machine/" class="archive-article-date"><time datetime="2016-09-25T00:20:32.000Z" itemprop="datePublished">September 24th</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/05/20/remove-skypehost-exe-that-bombards-your-hard-disk/">remove skypehost.exe that bombards your hard disk</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/05/20/remove-skypehost-exe-that-bombards-your-hard-disk/" class="archive-article-date"><time datetime="2016-05-20T23:57:59.000Z" itemprop="datePublished">May 20th</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/04/21/installing-stand-alone-spark-on-fresh-ubuntu-linux-install/">Installing Stand-alone Spark on fresh ubuntu linux install</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/04/21/installing-stand-alone-spark-on-fresh-ubuntu-linux-install/" class="archive-article-date"><time datetime="2016-04-22T03:02:50.000Z" itemprop="datePublished">April 21st</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/04/19/useful-powershell-scripts/">Useful Powershell scripts</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/04/19/useful-powershell-scripts/" class="archive-article-date"><time datetime="2016-04-20T02:03:08.000Z" itemprop="datePublished">April 19th</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/04/18/resize-a-fixed-virtual-box-vdi-file/">Resize a fixed Virtual Box vdi file</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/04/18/resize-a-fixed-virtual-box-vdi-file/" class="archive-article-date"><time datetime="2016-04-19T00:09:34.000Z" itemprop="datePublished">April 18th</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/01/15/windows-computer-waking-up-immediately-after-sleeping/">Windows computer waking up immediately after sleeping</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/01/15/windows-computer-waking-up-immediately-after-sleeping/" class="archive-article-date"><time datetime="2016-01-16T02:06:29.000Z" itemprop="datePublished">January 15th</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-  
-    </div></section>
-  
 
 
 

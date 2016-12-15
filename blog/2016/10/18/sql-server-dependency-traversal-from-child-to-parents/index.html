@@ -3,14 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2016 | Hexo</title>
+  <title>SQL Server: Dependency Traversal from Child to Parents | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2016/index.html">
+  <meta name="description" content="–Find Db Artifacts that uses the following Db ObjectDECLARE @DbArtifactToLookUp AS VARCHAR(500) = ‘DB_OBJECT_NAME_TO_SEARCH_GOES_HERE’;DECLARE @DbArtifactSchemaToLookUp AS VARCHAR(100) = ‘dbo’;
+;WITH">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL Server: Dependency Traversal from Child to Parents">
+<meta property="og:url" content="http://yoursite.com/2016/10/18/sql-server-dependency-traversal-from-child-to-parents/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="–Find Db Artifacts that uses the following Db ObjectDECLARE @DbArtifactToLookUp AS VARCHAR(500) = ‘DB_OBJECT_NAME_TO_SEARCH_GOES_HERE’;DECLARE @DbArtifactSchemaToLookUp AS VARCHAR(100) = ‘dbo’;
+;WITH">
+<meta property="og:updated_time" content="2016-12-15T03:02:55.402Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="SQL Server: Dependency Traversal from Child to Parents">
+<meta name="twitter:description" content="–Find Db Artifacts that uses the following Db ObjectDECLARE @DbArtifactToLookUp AS VARCHAR(500) = ‘DB_OBJECT_NAME_TO_SEARCH_GOES_HERE’;DECLARE @DbArtifactSchemaToLookUp AS VARCHAR(100) = ‘dbo’;
+;WITH">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -49,7 +56,7 @@
           <li><a class=""
                  href="/index.html">Home</a></li>
         
-          <li><a class="active"
+          <li><a class=""
                  href="/archives/">Archives</a></li>
         
       </ul>
@@ -73,180 +80,102 @@
 
     <div class="row">
         <div class="col-sm-8 blog-main">
-          
-  
-  
+          <article id="post-sql-server-dependency-traversal-from-child-to-parents" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
     
+  
+    <h1 class="article-title" itemprop="name">
+      SQL Server: Dependency Traversal from Child to Parents
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2016/10/18/sql-server-dependency-traversal-from-child-to-parents/" class="article-date"><time datetime="2016-10-19T02:56:06.000Z" itemprop="datePublished">2016-10-18</time></a>
+</div>
+
+    
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/how-to/">how-to</a> / <a class="article-category-link" href="/categories/how-to/sql/">sql</a>
+  </div>
+
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><pre class="lang:tsql decode:true ">–Find Db Artifacts that uses the following Db Object<br>DECLARE @DbArtifactToLookUp AS VARCHAR(500) = ‘DB_OBJECT_NAME_TO_SEARCH_GOES_HERE’;<br>DECLARE @DbArtifactSchemaToLookUp AS VARCHAR(100) = ‘dbo’;</pre></p>
+<p>;<br>WITH    dependencies_cte<br>          AS ( SELECT   ParentSchema = OBJECT_SCHEMA_NAME(d.referencing_id) ,<br>                        ParentObjectName = OBJECT_NAME(d.referencing_id) ,<br>                        ChildSchema = d.referenced_schema_name ,<br>                        ChildObjectName = d.referenced_entity_name ,<br>                        TreeStructureList = CAST(d.referenced_schema_name</p>
+<pre><code>                    + &apos;.&apos; + d.referenced_entity_name + &apos; -&amp;gt; &apos;
+                    + OBJECT_SCHEMA_NAME(d.referencing_id) + &apos;.&apos;
+                    + OBJECT_NAME(d.referencing_id) AS VARCHAR(5000))
+           FROM     sys.sql_expression_dependencies d
+           WHERE    OBJECT_NAME(d.referenced_id) = @DbArtifactToLookUp
+                    AND d.referenced_schema_name = @DbArtifactSchemaToLookUp
+           UNION ALL
+           SELECT   ParentSchema = OBJECT_SCHEMA_NAME(d.referencing_id) ,
+                    ParentObjectName = OBJECT_NAME(d.referencing_id) ,
+                    ChildSchema = d.referenced_schema_name ,
+                    ChildObjectName = d.referenced_entity_name ,
+                    TreeStructureList = CAST(dc.TreeStructureList + &apos; -&amp;gt; &apos;
+                    + OBJECT_SCHEMA_NAME(d.referencing_id) + &apos;.&apos;
+                    + OBJECT_NAME(d.referencing_id) AS VARCHAR(5000))
+           FROM     sys.sql_expression_dependencies d
+                    JOIN dependencies_cte dc ON OBJECT_NAME(d.referenced_id) = dc.ParentObjectName
+                                                AND d.referenced_schema_name = dc.ParentSchema
+         )
+SELECT  dct.TreeStructureList
+FROM    dependencies_cte AS dct
+ORDER BY dct.TreeStructureList;    
+</code></pre><p><br>&nbsp;</p>
+
+      
+    </div>
+
     
       
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/18/sql-server-dependency-traversal-from-child-to-parents/" data-id="ciwps9cxi0008vcv0rnpv16x5" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
+      
+
+    </footer>
+  </div>
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/10/hello-world/">Hello World</a>
-    </h1>
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
   
+  <li role="presentation">
+    <a href="/2016/09/24/unable-to-remove-node-modules-folder-from-windows-machine/" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">Unable to remove node-modules folder from Windows machine.</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/2016/12/10/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">Hello World</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
 
 
-    <div class="article-datetime">
-  <a href="/2016/12/10/hello-world/" class="archive-article-date"><time datetime="2016-12-11T04:30:24.180Z" itemprop="datePublished">December 10th</time></a>
-</div>
-
-  </header>
+  
 </article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/10/18/sql-server-dependency-traversal-from-child-to-parents/">SQL Server: Dependency Traversal from Child to Parents</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/10/18/sql-server-dependency-traversal-from-child-to-parents/" class="archive-article-date"><time datetime="2016-10-19T02:56:06.000Z" itemprop="datePublished">October 18th</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/24/unable-to-remove-node-modules-folder-from-windows-machine/">Unable to remove node-modules folder from Windows machine.</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/09/24/unable-to-remove-node-modules-folder-from-windows-machine/" class="archive-article-date"><time datetime="2016-09-25T00:20:32.000Z" itemprop="datePublished">September 24th</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/05/20/remove-skypehost-exe-that-bombards-your-hard-disk/">remove skypehost.exe that bombards your hard disk</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/05/20/remove-skypehost-exe-that-bombards-your-hard-disk/" class="archive-article-date"><time datetime="2016-05-20T23:57:59.000Z" itemprop="datePublished">May 20th</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/04/21/installing-stand-alone-spark-on-fresh-ubuntu-linux-install/">Installing Stand-alone Spark on fresh ubuntu linux install</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/04/21/installing-stand-alone-spark-on-fresh-ubuntu-linux-install/" class="archive-article-date"><time datetime="2016-04-22T03:02:50.000Z" itemprop="datePublished">April 21st</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/04/19/useful-powershell-scripts/">Useful Powershell scripts</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/04/19/useful-powershell-scripts/" class="archive-article-date"><time datetime="2016-04-20T02:03:08.000Z" itemprop="datePublished">April 19th</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/04/18/resize-a-fixed-virtual-box-vdi-file/">Resize a fixed Virtual Box vdi file</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/04/18/resize-a-fixed-virtual-box-vdi-file/" class="archive-article-date"><time datetime="2016-04-19T00:09:34.000Z" itemprop="datePublished">April 18th</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/01/15/windows-computer-waking-up-immediately-after-sleeping/">Windows computer waking up immediately after sleeping</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/01/15/windows-computer-waking-up-immediately-after-sleeping/" class="archive-article-date"><time datetime="2016-01-16T02:06:29.000Z" itemprop="datePublished">January 15th</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-  
-    </div></section>
-  
 
 
 

@@ -3,14 +3,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2016 | Hexo</title>
+  <title>Upload Folder via CURL/FTPS from a windows machine | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2016/index.html">
+  <meta name="description" content="simple dos script to upload folder using curl/ftps
+@echo offset localdir=C:\test\set ftpdir=testset ftphost=&amp;lt;ftp host&amp;gt;set ftpuser=&amp;lt;ftp user&amp;gt;set ftppass=&amp;lt;ftp password&amp;gt;
+setlocal enable">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Upload Folder via CURL/FTPS from a windows machine">
+<meta property="og:url" content="http://yoursite.com/2015/12/25/upload-folder-via-curlftps-from-a-windows-machine/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="simple dos script to upload folder using curl/ftps
+@echo offset localdir=C:\test\set ftpdir=testset ftphost=&amp;lt;ftp host&amp;gt;set ftpuser=&amp;lt;ftp user&amp;gt;set ftppass=&amp;lt;ftp password&amp;gt;
+setlocal enable">
+<meta property="og:updated_time" content="2016-12-15T03:02:55.401Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="Upload Folder via CURL/FTPS from a windows machine">
+<meta name="twitter:description" content="simple dos script to upload folder using curl/ftps
+@echo offset localdir=C:\test\set ftpdir=testset ftphost=&amp;lt;ftp host&amp;gt;set ftpuser=&amp;lt;ftp user&amp;gt;set ftppass=&amp;lt;ftp password&amp;gt;
+setlocal enable">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -49,7 +59,7 @@
           <li><a class=""
                  href="/index.html">Home</a></li>
         
-          <li><a class="active"
+          <li><a class=""
                  href="/archives/">Archives</a></li>
         
       </ul>
@@ -73,180 +83,101 @@
 
     <div class="row">
         <div class="col-sm-8 blog-main">
-          
-  
-  
+          <article id="post-upload-folder-via-curlftps-from-a-windows-machine" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
     
+  
+    <h1 class="article-title" itemprop="name">
+      Upload Folder via CURL/FTPS from a windows machine
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2015/12/25/upload-folder-via-curlftps-from-a-windows-machine/" class="article-date"><time datetime="2015-12-26T04:03:07.000Z" itemprop="datePublished">2015-12-25</time></a>
+</div>
+
+    
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/how-to/">how-to</a>
+  </div>
+
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>simple dos script to upload folder using curl/ftps</p>
+<p><pre class="lang:batch decode:true ">@echo off<br>set localdir=C:\test\<br>set ftpdir=test<br>set ftphost=&lt;ftp host&gt;<br>set ftpuser=&lt;ftp user&gt;<br>set ftppass=&lt;ftp password&gt;</pre></p>
+<p>setlocal enableDelayedExpansion</p>
+<p>cd %localdir%<br>rem main directory<br>for /F %%x in (‘dir /B/D %localdir%’) do (<br>  set FILENAME=%localdir%\%%x<br> c:\curl\curl.exe -T !FILENAME! ftps://%ftphost%/%ftpdir%/ –user %ftpuser%:%ftppass% -k –ftp-ssl<br> )</p>
+<p>rem sub-directories<br>for /F %%a in (‘dir /ad /on /s /b “%localdir%”‘) do (<br>    for /F %%x in (‘dir /B/D %%a’) do (<br>      set FILENAME=%%a\%%x<br>      set FOLDERNAME=%%a<br>      rem here 8 is the length of localdir string. “c:\test\”<br>      set FOLDERNAME2=!FOLDERNAME%:~8,-2!<br>      c:\curl\curl.exe -T “!FILENAME!” –ftp-create-dirs ftps://%ftphost%/%ftpdir%/!FOLDERNAME2!/ –user %ftpuser%:%ftppass% -k –ftp-ssl<br>    )<br>)</p>
+<p>endlocal<br><br>above is an extension to an existing <a href="http://superuser.com/questions/590567/upload-folder-with-curl-and-ftp-using-batch-file-on-windows" target="_blank" rel="external">solution</a> as I needed only one level sub directories. For my final solution, I went with powershell. The solution I used to invoke curl from powershell was slow. If you can zip and upload your complete folder, then stick to that approach. This is only needed if due to some reason, you cannot unzip on the server side.</p>
+<p><pre class="lang:ps decode:true  ">#rem <a href="http://windowsitpro.com/powershell/running-executables-powershell" target="_blank" rel="external">http://windowsitpro.com/powershell/running-executables-powershell</a><br>function Start-Executable {<br>  param(<br>    [String] $FilePath,<br>    [String[]] $ArgumentList<br>  )<br>  $OFS = “ “<br>  $process = New-Object System.Diagnostics.Process<br>  $process.StartInfo.FileName = $FilePath<br>  $process.StartInfo.Arguments = $ArgumentList<br>  $process.StartInfo.UseShellExecute = $false<br>  $process.StartInfo.RedirectStandardOutput = $true<br>  if ( $process.Start() ) {<br>    $output = $process.StandardOutput.ReadToEnd() <code>-replace &quot;\r\n$&quot;,&quot;&quot;
+    if ( $output ) {
+      if ( $output.Contains(&quot;</code>r<code>n&quot;) ) {
+        $output -split &quot;</code>r<code>n&quot;
+      }
+      elseif ( $output.Contains(&quot;</code>n”) ) {<br>        $output -split “<code>n&quot;
+      }
+      else {
+        $output
+      }
+    }
+    $process.WaitForExit()
+    &amp;amp; &quot;$Env:SystemRoot\system32\cmd.exe&quot;</code><br>      /c exit $process.ExitCode<br>  }<br>}</pre></p>
+<p>function _UploadViaFTPSCurl($path, $ftpurl, $ftpfolder, $credentials)<br>{<br>   foreach ($item in Get-ChildItem $path)<br>   {<br>        if (Test-Path $item.FullName -PathType Container)<br>        {<br>            $ftpurlparam = $ftpurl+””+$ftpfolder+”/“<br>            _UploadViaFTPSCurl $item.FullName $ftpurlparam $item.Name $credentials<br>        }<br>        else<br>        {<br>            $url =  $ftpurl +””+ $ftpfolder<br>            $itemFullName = $item.FullName<br>            $params = @(“-T “”$itemFullName”” –ftp-create-dirs $url/ –user $credentials -k –ftp-ssl”)<br>            Write-Host $params<br>            Start-Executable “curl.exe” $params<br>        }</p>
+<pre><code>}
+</code></pre><p>} </p>
+<p>$path=”C:\Test”<br>$ftpurl = “ftps://&lt;ftp server name&gt;/“<br>$ftpfolder = “test”<br>$credentials = “&lt;ftp username&gt;:&lt;ftp password&gt;”<br>_UploadViaFTPSCurl $path $ftpurl $ftpfolder $credentials<br>&nbsp;</p>
+
+      
+    </div>
+
     
       
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/12/25/upload-folder-via-curlftps-from-a-windows-machine/" data-id="ciwps9cxl000bvcv07wg6r59p" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
+      
+
+    </footer>
+  </div>
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/10/hello-world/">Hello World</a>
-    </h1>
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
   
+  <li role="presentation">
+    <a href="/2015/11/17/npm-some-useful-commands-i-came-across/" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">NPM  -  some useful commands I came across</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/2016/01/15/windows-computer-waking-up-immediately-after-sleeping/" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">Windows computer waking up immediately after sleeping</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
 
 
-    <div class="article-datetime">
-  <a href="/2016/12/10/hello-world/" class="archive-article-date"><time datetime="2016-12-11T04:30:24.180Z" itemprop="datePublished">December 10th</time></a>
-</div>
-
-  </header>
+  
 </article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/10/18/sql-server-dependency-traversal-from-child-to-parents/">SQL Server: Dependency Traversal from Child to Parents</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/10/18/sql-server-dependency-traversal-from-child-to-parents/" class="archive-article-date"><time datetime="2016-10-19T02:56:06.000Z" itemprop="datePublished">October 18th</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/24/unable-to-remove-node-modules-folder-from-windows-machine/">Unable to remove node-modules folder from Windows machine.</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/09/24/unable-to-remove-node-modules-folder-from-windows-machine/" class="archive-article-date"><time datetime="2016-09-25T00:20:32.000Z" itemprop="datePublished">September 24th</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/05/20/remove-skypehost-exe-that-bombards-your-hard-disk/">remove skypehost.exe that bombards your hard disk</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/05/20/remove-skypehost-exe-that-bombards-your-hard-disk/" class="archive-article-date"><time datetime="2016-05-20T23:57:59.000Z" itemprop="datePublished">May 20th</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/04/21/installing-stand-alone-spark-on-fresh-ubuntu-linux-install/">Installing Stand-alone Spark on fresh ubuntu linux install</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/04/21/installing-stand-alone-spark-on-fresh-ubuntu-linux-install/" class="archive-article-date"><time datetime="2016-04-22T03:02:50.000Z" itemprop="datePublished">April 21st</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/04/19/useful-powershell-scripts/">Useful Powershell scripts</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/04/19/useful-powershell-scripts/" class="archive-article-date"><time datetime="2016-04-20T02:03:08.000Z" itemprop="datePublished">April 19th</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/04/18/resize-a-fixed-virtual-box-vdi-file/">Resize a fixed Virtual Box vdi file</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/04/18/resize-a-fixed-virtual-box-vdi-file/" class="archive-article-date"><time datetime="2016-04-19T00:09:34.000Z" itemprop="datePublished">April 18th</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/01/15/windows-computer-waking-up-immediately-after-sleeping/">Windows computer waking up immediately after sleeping</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/01/15/windows-computer-waking-up-immediately-after-sleeping/" class="archive-article-date"><time datetime="2016-01-16T02:06:29.000Z" itemprop="datePublished">January 15th</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-  
-    </div></section>
-  
 
 
 

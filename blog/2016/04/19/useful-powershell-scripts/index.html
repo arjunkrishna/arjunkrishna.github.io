@@ -3,14 +3,27 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2016 | Hexo</title>
+  <title>Useful Powershell scripts | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2016/index.html">
+  <meta name="description" content="Steps to create your profile file (perform these steps as admin within powershell command prompt)$profile
+test-path $profile
+#if false then create a new file for your user account
+new-item -path $prof">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Useful Powershell scripts">
+<meta property="og:url" content="http://yoursite.com/2016/04/19/useful-powershell-scripts/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Steps to create your profile file (perform these steps as admin within powershell command prompt)$profile
+test-path $profile
+#if false then create a new file for your user account
+new-item -path $prof">
+<meta property="og:updated_time" content="2016-12-15T03:02:55.401Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="Useful Powershell scripts">
+<meta name="twitter:description" content="Steps to create your profile file (perform these steps as admin within powershell command prompt)$profile
+test-path $profile
+#if false then create a new file for your user account
+new-item -path $prof">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -49,7 +62,7 @@
           <li><a class=""
                  href="/index.html">Home</a></li>
         
-          <li><a class="active"
+          <li><a class=""
                  href="/archives/">Archives</a></li>
         
       </ul>
@@ -73,180 +86,87 @@
 
     <div class="row">
         <div class="col-sm-8 blog-main">
-          
-  
-  
+          <article id="post-useful-powershell-scripts" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
     
+  
+    <h1 class="article-title" itemprop="name">
+      Useful Powershell scripts
+    </h1>
+  
+
+
+  </header>
+
+  <div class="article-meta">
+    <div class="article-datetime">
+  <a href="/2016/04/19/useful-powershell-scripts/" class="article-date"><time datetime="2016-04-20T02:03:08.000Z" itemprop="datePublished">2016-04-19</time></a>
+</div>
+
+    
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/how-to/">how-to</a> / <a class="article-category-link" href="/categories/how-to/powershell/">powershell</a>
+  </div>
+
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Steps-to-create-your-profile-file-perform-these-steps-as-admin-within-powershell-command-prompt"><a href="#Steps-to-create-your-profile-file-perform-these-steps-as-admin-within-powershell-command-prompt" class="headerlink" title="Steps to create your profile file (perform these steps as admin within powershell command prompt)"></a>Steps to create your profile file (perform these steps as admin within powershell command prompt)</h3><pre class="lang:ps decode:true ">$profile
+test-path $profile
+#if false then create a new file for your user account
+new-item -path $profile -itemtype file -force
+notepad $profile
+Set-ExecutionPolicy unrestricted</pre>
+
+<h3 id="Create-powershell-functions-and-store-them-in-your-profile-file"><a href="#Create-powershell-functions-and-store-them-in-your-profile-file" class="headerlink" title="Create powershell functions and store them in your profile file"></a>Create powershell functions and store them in your profile file</h3><p><pre class="lang:ps decode:true ">function <em>pskill ($processName=””) {Get-Process | Where { $</em>.Name -Eq $processName } | Kill}<br>function _pskillMultipleProcesses ($processName=””) {Get-Process $processName | Kill}<br>function <em>pskillInstance ($processName=””, $windowTitleText) {Get-Process $processName | Where-Object { $</em>.MainWindowTitle –like ‘<em>‘+$windowTitleText+’</em>’ } | Kill}<br>function pro { notepad $profile }<br>function _touch ($fileName=””) {(Get-Item $fileName).lastwritetime=$(Get-Date)}<br>function _touch1 ($fileName=””, $date) {(Get-Item $fileName).lastwritetime=$(Get-Date $date)}<br>function _copyToDesktop ($filename) {Copy-Item $filename ([Environment]::GetFolderPath(“Desktop”))}<br>function <em>listSpecialFolders { [enum]::getvalues([system.environment+specialfolder]) | foreach {“$</em> maps to “ + [system.Environment]::GetFolderPath($_)}}<br>function _open ($pathOrFile=”.”) {ii $pathOrFile}<br>function _removeLeadingZeroes($stringValue) { $stringValue -replace ‘\b0+\B’}<br>function _tail($filename) {gc $filename -wait}<br>function _whoamI {[System.Security.Principal.WindowsIdentity]::GetCurrent()}</pre></p>
+<p>function <em>FolderSize($Path=$home) {<br>$code = { (‘{0:0.0} MB’ -f ($this/1MB)) }<br>Get-ChildItem -Path $Path |<br>Where-Object { $</em>.Length -eq $null } |<br>ForEach-Object {<br>Write-Progress -Activity ‘Calculating Total Size for:’ -Status $<em>.FullName<br>$sum = Get-ChildItem $</em>.FullName -Recurse -ErrorAction SilentlyContinue |<br>Measure-Object -Property Length -Sum -ErrorAction SilentlyContinue<br>$bytes = $sum.Sum<br>if ($bytes -eq $null) { $bytes = 0 }<br>$result = 1 | Select-Object -Property Path, TotalSize<br>$result.Path = $_.FullName<br>$result.TotalSize = $bytes |<br>Add-Member -MemberType ScriptMethod -Name toString -Value $code -Force -PassThru<br>$result<br>}<br>}<br>function _outExcelReport<br>{<br>param ($Path = “$env:temp\$(Get-Random).csv”)<br>$Input | Export-Csv -Path $Path -Encoding UTF8 -NoTypeInformation -UseCulture<br>ii -Path $Path<br>}<br>function _ProductKey {<br>$map=”BCDFGHJKMPQRTVWXY2346789”<br>$value = (get-itemproperty “HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion”).digitalproductid[0x34..0x42]<br>$ProductKey = “”<br>for ($i = 24; $i -ge 0; $i–) {<br>$r = 0<br>for ($j = 14; $j -ge 0; $j–) {<br>$r = ($r * 256) -bxor $value[$j]<br>$value[$j] = [math]::Floor(<a href="$r/24">double</a>)<br>$r = $r % 24<br>}<br>$ProductKey = $map[$r] + $ProductKey<br>if (($i % 5) -eq 0 -and $i -ne 0) {<br>$ProductKey = “-“ + $ProductKey<br>}<br>}<br>$ProductKey<br>}<br>function applist { Get-WmiObject -Class Win32<em>Product | Select-Object -Property Name }<br>function EasyView { process { $</em>; Start-Sleep -seconds .5}}<br>&nbsp;</p>
+
+      
+    </div>
+
     
       
+
+    
+
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/04/19/useful-powershell-scripts/" data-id="ciwps9cxr000kvcv0gnmduwze" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
+      
+
+    </footer>
+  </div>
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/10/hello-world/">Hello World</a>
-    </h1>
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
   
+  <li role="presentation">
+    <a href="/2016/04/18/resize-a-fixed-virtual-box-vdi-file/" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">Resize a fixed Virtual Box vdi file</span>
+    </a>
+  </li>
+  
+  
+  <li role="presentation">
+    <a href="/2016/04/21/installing-stand-alone-spark-on-fresh-ubuntu-linux-install/" id="article-nav-newer" class="article-nav-link-wrap">
+      <span class="article-nav-link-title">Installing Stand-alone Spark on fresh ubuntu linux install</span>
+      <i class="fa fa-chevron-right pull-right"></i>
+    </a>
+  </li>
+  
+</ul>
 
 
-    <div class="article-datetime">
-  <a href="/2016/12/10/hello-world/" class="archive-article-date"><time datetime="2016-12-11T04:30:24.180Z" itemprop="datePublished">December 10th</time></a>
-</div>
-
-  </header>
+  
 </article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/10/18/sql-server-dependency-traversal-from-child-to-parents/">SQL Server: Dependency Traversal from Child to Parents</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/10/18/sql-server-dependency-traversal-from-child-to-parents/" class="archive-article-date"><time datetime="2016-10-19T02:56:06.000Z" itemprop="datePublished">October 18th</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/24/unable-to-remove-node-modules-folder-from-windows-machine/">Unable to remove node-modules folder from Windows machine.</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/09/24/unable-to-remove-node-modules-folder-from-windows-machine/" class="archive-article-date"><time datetime="2016-09-25T00:20:32.000Z" itemprop="datePublished">September 24th</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/05/20/remove-skypehost-exe-that-bombards-your-hard-disk/">remove skypehost.exe that bombards your hard disk</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/05/20/remove-skypehost-exe-that-bombards-your-hard-disk/" class="archive-article-date"><time datetime="2016-05-20T23:57:59.000Z" itemprop="datePublished">May 20th</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/04/21/installing-stand-alone-spark-on-fresh-ubuntu-linux-install/">Installing Stand-alone Spark on fresh ubuntu linux install</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/04/21/installing-stand-alone-spark-on-fresh-ubuntu-linux-install/" class="archive-article-date"><time datetime="2016-04-22T03:02:50.000Z" itemprop="datePublished">April 21st</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/04/19/useful-powershell-scripts/">Useful Powershell scripts</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/04/19/useful-powershell-scripts/" class="archive-article-date"><time datetime="2016-04-20T02:03:08.000Z" itemprop="datePublished">April 19th</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/04/18/resize-a-fixed-virtual-box-vdi-file/">Resize a fixed Virtual Box vdi file</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/04/18/resize-a-fixed-virtual-box-vdi-file/" class="archive-article-date"><time datetime="2016-04-19T00:09:34.000Z" itemprop="datePublished">April 18th</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/01/15/windows-computer-waking-up-immediately-after-sleeping/">Windows computer waking up immediately after sleeping</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2016/01/15/windows-computer-waking-up-immediately-after-sleeping/" class="archive-article-date"><time datetime="2016-01-16T02:06:29.000Z" itemprop="datePublished">January 15th</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-  
-    </div></section>
-  
 
 
 
