@@ -1,4 +1,4 @@
----
+﻿---
 id: 83
 title: remove skypehost.exe that bombards your hard disk
 date: 2016-05-20T19:57:59+00:00

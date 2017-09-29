@@ -1,4 +1,4 @@
----
+﻿---
 id: 78
 title: Installing Stand-alone Spark on fresh ubuntu linux install
 date: 2016-04-21T23:02:50+00:00
@@ -10,12 +10,12 @@ categories:
   - how-to
   - ubuntu
 ---
-I looked at the following links :� <a href="https://www.dezyre.com/apache-spark-tutorial/apache-spark-installation-tutorial" target="_blank">install spark</a>, <a href="http://dmitrypukhov.pro/install-apache-spark-on-ubuntu/" target="_blank">install spark with hadoop</a>� &� <a href="http://www.liberiangeek.net/2014/03/daily-ubuntu-tips-manually-install-oracle-java-jdk-8-in-ubuntu/" target="_blank">install jdk</a>
+I looked at the following links :Â <a href="https://www.dezyre.com/apache-spark-tutorial/apache-spark-installation-tutorial" target="_blank">install spark</a>, <a href="http://dmitrypukhov.pro/install-apache-spark-on-ubuntu/" target="_blank">install spark with hadoop</a>Â &Â <a href="http://www.liberiangeek.net/2014/03/daily-ubuntu-tips-manually-install-oracle-java-jdk-8-in-ubuntu/" target="_blank">install jdk</a>
 
 &nbsp;
 
 <pre class="lang:sh decode:true ">mkdir apps
-chmod 777 –R ./apps
+chmod 777 â€“R ./apps
 
 #installing jdk
 
@@ -31,7 +31,7 @@ sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jdk1.8.0
 sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/lib/jvm/jdk1.8.0/bin/javac" 1
 sudo update-alternatives --install "/usr/bin/javaws" "javaws" "/usr/lib/jvm/jdk1.8.0/bin/javaws" 1
 #check java installation
-java –version
+java â€“version
 
 
 #download spark

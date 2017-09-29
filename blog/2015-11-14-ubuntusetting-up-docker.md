@@ -1,4 +1,4 @@
----
+﻿---
 id: 32
 title: 'Ubuntu &ndash; setting up Docker'
 date: 2015-11-14T01:15:05+00:00

@@ -1,4 +1,4 @@
----
+﻿---
 id: 25
 title: 'Ubuntu &#8211; xrdp setup'
 date: 2015-11-13T21:21:18+00:00
@@ -20,7 +20,7 @@ I was trying to setup xrdp on ubuntu 14.04.3 so that I can RDP into it from my w
               * **sudo apt-get install xfce4** 
                   * **echo xfce4-session >~/.xsession** 
                       * **sudo service xrdp restart** 
-                          * **hostname –I** 
+                          * **hostname â€“I** 
                               * **note down the ip address**</ul> 
                           * **On a windows machine** 
                               * **Windows + R** 

@@ -1,4 +1,4 @@
----
+﻿---
 id: 22
 title: 'Windows Live Writer &ndash; Installation on a Windows 10 machine.'
 date: 2015-09-10T22:53:55+00:00

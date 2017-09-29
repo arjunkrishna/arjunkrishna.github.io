@@ -1,4 +1,4 @@
----
+ï»¿---
 id: 50
 title: Upload Folder via CURL/FTPS from a windows machine
 date: 2015-12-25T23:03:07+00:00
@@ -42,7 +42,7 @@ for /F %%a in ('dir /ad /on /s /b "%localdir%"') do (
 endlocal
 </pre>
 
-aboveÂ is an extension to an existing [solution](http://superuser.com/questions/590567/upload-folder-with-curl-and-ftp-using-batch-file-on-windows)Â as I needed only one level sub directories. For my final solution, I went with powershell. The solution I used to invoke curl from powershell was slow. If you can zip and upload your complete folder, then stick to that approach. This is only needed if due to some reason, you cannot unzip on the server side.
+aboveÃ‚ is an extension to an existing [solution](http://superuser.com/questions/590567/upload-folder-with-curl-and-ftp-using-batch-file-on-windows)Ã‚ as I needed only one level sub directories. For my final solution, I went with powershell. The solution I used to invoke curl from powershell was slow. If you can zip and upload your complete folder, then stick to that approach. This is only needed if due to some reason, you cannot unzip on the server side.
 
 <pre class="lang:ps decode:true  ">#rem http://windowsitpro.com/powershell/running-executables-powershell
 function Start-Executable {

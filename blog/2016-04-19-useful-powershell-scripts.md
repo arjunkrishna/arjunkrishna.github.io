@@ -1,4 +1,4 @@
----
+﻿---
 id: 71
 title: Useful Powershell scripts
 date: 2016-04-19T22:03:08+00:00
@@ -10,7 +10,7 @@ categories:
   - how-to
   - powershell
 ---
-### Steps to create your profile file (perform these steps as admin within powershell� command prompt) {#ecxUsefulPowershellcommands-Stepstocreateyourprofilefile}
+### Steps to create your profile file (perform these steps as admin within powershellÂ command prompt) {#ecxUsefulPowershellcommands-Stepstocreateyourprofilefile}
 
 <pre class="lang:ps decode:true ">$profile
 test-path $profile
@@ -23,7 +23,7 @@ Set-ExecutionPolicy unrestricted</pre>
 
 <pre class="lang:ps decode:true ">function _pskill ($processName="") {Get-Process | Where { $_.Name -Eq $processName } | Kill} 
 function _pskillMultipleProcesses ($processName="") {Get-Process $processName | Kill} 
-function _pskillInstance ($processName="", $windowTitleText) {Get-Process $processName | Where-Object { $_.MainWindowTitle –like ‘*'+$windowTitleText+'*’ } | Kill} 
+function _pskillInstance ($processName="", $windowTitleText) {Get-Process $processName | Where-Object { $_.MainWindowTitle â€“like â€˜*'+$windowTitleText+'*â€™ } | Kill} 
 function pro { notepad $profile }
 function _touch ($fileName="") {(Get-Item $fileName).lastwritetime=$(Get-Date)} 
 function _touch1 ($fileName="", $date) {(Get-Item $fileName).lastwritetime=$(Get-Date $date)} 

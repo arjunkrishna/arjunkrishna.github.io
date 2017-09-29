@@ -1,4 +1,4 @@
----
+﻿---
 id: 100
 title: 'Invoke Docker Installed on Windows 10 Creator&#8217;s Update via &#8220;Bash On Ubuntu on Windows&#8221;'
 date: 2017-08-12T22:29:59+00:00
@@ -39,21 +39,21 @@ enable bash and configure it to call docker running on windows
 
 <pre class="lang:default decode:true ">Windows+ I (opens windows settings)
 Select "Developer Mode" radio button
-Windows + R  (opens Run command)
+Windows + R Â (opens Run command)
 type appwiz.cpl (to open programs and features)
 select Turn Windows features on or off
 check "Windows Subsystem for Linux (Beta)"
 Open Bash On Ubuntu On Windows
 the terminal window will open; set username and password for super user access
-type "nano  .bashrc" (without double quotes)
+type "nano Â .bashrc" (without double quotes)
 add the following lines to the file
 #call docker installed on windows from bash
 PATH="$HOME/bin;$HOME/.local/bin:$PATH"
 PATH="$PATH:/mnt/c/Program*Files/Docker/Docker/resources/bin"
 alias docker=docker.exe
 save and close the file.
-sudo apt-get update
-sudo apt-get upgrade
+sudoÂ apt-get update
+sudoÂ apt-get upgrade
 Open new instance of bash (Bash On Ubuntu On Windows)
 type "docker --version"</pre>
 

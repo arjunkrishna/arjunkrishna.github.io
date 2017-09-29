@@ -1,4 +1,4 @@
----
+﻿---
 id: 45
 title: 'NPM  &#8211;  some useful commands I came across'
 date: 2015-11-17T00:15:24+00:00
@@ -34,12 +34,12 @@ var ngAnnotate = require('gulp-ng-annotate');
 
 /** Merge all application js files into a single app.js */
 gulp.task('minifyApp', function(){
-    /*Merge all js components */
-    gulp.src(['app/**/*.js'])
-        .pipe(concat('app.js'))
-        //Perform some static analysis on the bundles angular js file
-        .pipe(ngAnnotate())
-        .pipe(gulp.dest('.'));
+Â Â Â  /*Merge all js components */
+Â Â Â  gulp.src(['app/**/*.js'])
+Â Â Â Â Â Â Â  .pipe(concat('app.js'))
+Â Â Â Â Â Â Â  //Perform some static analysis on the bundles angular js file
+Â Â Â Â Â Â Â  .pipe(ngAnnotate())
+Â Â Â Â Â Â Â  .pipe(gulp.dest('.'));
 
 });
 

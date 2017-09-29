@@ -1,4 +1,4 @@
----
+ï»¿---
 id: 63
 title: Resize a fixed Virtual Box vdi file
 date: 2016-04-18T20:09:34+00:00
@@ -22,12 +22,12 @@ VBoxManage clonehd "D:\VirtualBox VMs\win10-2\win10-2_dyn.vdi" "D:\VirtualBox VM
 
 After this use gparted live iso to increase the size of the partition.
 
-  * Download the iso fromÂ <http://gparted.sourceforge.net/download.php> (eg:Â gparted-live-0.25.0-3-i686.iso)
+  * Download the iso fromÃ‚ <http://gparted.sourceforge.net/download.php> (eg:Ã‚ gparted-live-0.25.0-3-i686.iso)
   * Via Virtual Box&#8217;s UI, 
       * turn on EFI,
       * load this iso to your virtual machine
       * reboot the VM from the ISO
-  * Within gpartedÂ live boots 
+  * Within gpartedÃ‚ live boots 
       * Right-click the partition you want to enlarge
       * select Resize/Move and select the max available size.
   * Via Virtual Box&#8217;s UI 
